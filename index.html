@@ -110,5 +110,28 @@
     <blockquote id="quote"></blockquote>
     <footer id="author"></footer>
   </main>
+
+  <script>
+    // Quote data (will be replaced by backend values later)
+    const quoteData = {
+      text: "The only way to do great work is to love what you do.",
+      author: "Steve Jobs"
+    };
+
+    // Get today's date
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('en-US', { 
+      month: 'long', 
+      day: 'numeric', 
+      year: 'numeric' 
+    });
+    const isoDate = today.toISOString().split('T')[0];
+
+    // Populate the DOM
+    document.getElementById('date').textContent = formattedDate;
+    document.getElementById('date').setAttribute('datetime', isoDate);
+    document.getElementById('quote').textContent = `"${quoteData.text}"`;
+    document.getElementById('author').innerHTML = `&#8212;&nbsp;&nbsp;&nbsp;&nbsp;${quoteData.author}`;
+  </script>
 </body>
 </html>
