@@ -23,7 +23,7 @@ def load_quotes_from_yaml():
         sys.exit(1)
     
     with open(yaml_path, 'r', encoding='utf-8') as file:
-        data = yaml.safe_load(file)
+        data = yaml.safe_load(file) or {}
         return data.get('quotes', [])
 
 
@@ -84,7 +84,7 @@ def seed_database():
         # Commit all inserts
         db.commit()
         
-        print(f"\n✅ Seeding complete!")
+        print(f"\nSeeding complete!")
         print(f"   - Inserted: {inserted_count} quotes")
         print(f"   - Skipped: {skipped_count} quotes")
         print(f"   - Total in database: {db.query(Quote).count()} quotes")
@@ -94,5 +94,5 @@ if __name__ == "__main__":
     try:
         seed_database()
     except Exception as e:
-        print(f"❌ Error during seeding: {e}")
+        print(f"Error during seeding: {e}")
         sys.exit(1)
