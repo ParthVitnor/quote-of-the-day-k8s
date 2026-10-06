@@ -42,16 +42,6 @@ def seed_database():
     
     # Connect to database and insert quotes
     with get_db_context() as db:
-        # Check if quotes already exist
-        existing_count = db.query(Quote).count()
-        
-        if existing_count > 0:
-            print(f"Database already contains {existing_count} quotes")
-            response = input("Do you want to skip seeding? (y/n): ")
-            if response.lower() == 'y':
-                print("Seeding skipped")
-                return
-        
         # Insert quotes
         inserted_count = 0
         skipped_count = 0
