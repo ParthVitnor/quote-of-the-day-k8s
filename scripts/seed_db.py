@@ -47,8 +47,8 @@ def seed_database():
         skipped_count = 0
         
         for quote_data in quotes:
-            text = quote_data.get('text', '').strip()
-            author = quote_data.get('author', '').strip()
+            text = (quote_data.get('text') or '').strip()
+            author = (quote_data.get('author') or '').strip()
             
             if not text or not author:
                 print(f"Warning: Skipping invalid quote (empty text or author)")
