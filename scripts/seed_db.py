@@ -42,6 +42,9 @@ def seed_database():
     
     # Connect to database and insert quotes
     with get_db_context() as db:
+        # Load existing quotes into memory for deduplication
+        existing = {(q.text, q.author) for q in db.query(Quote).all()}
+        
         # Insert quotes
         inserted_count = 0
         skipped_count = 0
@@ -55,13 +58,8 @@ def seed_database():
                 skipped_count += 1
                 continue
             
-            # Check if quote already exists (avoid duplicates)
-            existing = db.query(Quote).filter(
-                Quote.text == text,
-                Quote.author == author
-            ).first()
-            
-            if existing:
+            # Check if quote already exists in memory set
+            if (text, author) in existing:
                 print(f"Skipping duplicate: '{text[:50]}...' by {author}")
                 skipped_count += 1
                 continue
@@ -69,6 +67,7 @@ def seed_database():
             # Insert new quote
             new_quote = Quote(text=text, author=author)
             db.add(new_quote)
+            existing.add((text, author))
             inserted_count += 1
         
         # Commit all inserts
