@@ -54,13 +54,11 @@ def seed_database():
             author = (quote_data.get('author') or '').strip()
             
             if not text or not author:
-                print(f"Warning: Skipping invalid quote (empty text or author)")
                 skipped_count += 1
                 continue
             
             # Check if quote already exists in memory set
             if (text, author) in existing:
-                print(f"Skipping duplicate: '{text[:50]}...' by {author}")
                 skipped_count += 1
                 continue
             
@@ -73,10 +71,7 @@ def seed_database():
         # Commit all inserts
         db.commit()
         
-        print(f"\nSeeding complete!")
-        print(f"   - Inserted: {inserted_count} quotes")
-        print(f"   - Skipped: {skipped_count} quotes")
-        print(f"   - Total in database: {db.query(Quote).count()} quotes")
+        print(f"Inserted: {inserted_count}, Skipped: {skipped_count}")
 
 
 if __name__ == "__main__":
