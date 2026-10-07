@@ -47,6 +47,13 @@ def rotate_quote():
         else:
             # First time running, start with first quote
             next_quote = db.query(Quote).order_by(Quote.id).first()
+        
+        # Insert new daily quote
+        new_daily = DailyQuote(quote_id=next_quote.id, date=today)
+        db.add(new_daily)
+        db.commit()
+        
+        print(f"Set quote for today: '{next_quote.text[:50]}...' by {next_quote.author}")
 
 
 if __name__ == "__main__":
