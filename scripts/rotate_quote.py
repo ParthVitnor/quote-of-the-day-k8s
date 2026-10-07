@@ -25,6 +25,13 @@ def rotate_quote():
         if existing_daily:
             print("Quote already set for today")
             return
+        
+        # Get total number of quotes
+        total_quotes = db.query(Quote).count()
+        
+        if total_quotes == 0:
+            print("Error: No quotes in database")
+            sys.exit(1)
 
 
 if __name__ == "__main__":
