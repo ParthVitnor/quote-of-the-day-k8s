@@ -16,7 +16,15 @@ from app.models import Quote, DailyQuote
 
 def rotate_quote():
     """Select next quote sequentially and set as today's quote."""
-    pass
+    today = date.today()
+    
+    with get_db_context() as db:
+        # Check if today's quote already exists
+        existing_daily = db.query(DailyQuote).filter(DailyQuote.date == today).first()
+        
+        if existing_daily:
+            print("Quote already set for today")
+            return
 
 
 if __name__ == "__main__":
