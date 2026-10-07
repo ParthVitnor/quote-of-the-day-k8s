@@ -32,6 +32,21 @@ def rotate_quote():
         if total_quotes == 0:
             print("Error: No quotes in database")
             sys.exit(1)
+        
+        # Get last used quote to determine next one
+        last_daily = db.query(DailyQuote).order_by(DailyQuote.date.desc()).first()
+        
+        if last_daily:
+            # Sequential selection: get next quote
+            last_quote_id = last_daily.quote_id
+            next_quote = db.query(Quote).filter(Quote.id > last_quote_id).order_by(Quote.id).first()
+            
+            # If no next quote found, loop back to first quote
+            if not next_quote:
+                next_quote = db.query(Quote).order_by(Quote.id).first()
+        else:
+            # First time running, start with first quote
+            next_quote = db.query(Quote).order_by(Quote.id).first()
 
 
 if __name__ == "__main__":
