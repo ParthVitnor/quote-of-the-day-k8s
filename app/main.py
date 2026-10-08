@@ -24,6 +24,40 @@ app = FastAPI(
 templates = Jinja2Templates(directory=settings.TEMPLATES_DIR)
 
 
+def get_daily_quote(db: Session) -> dict:
+    """
+    Get today's quote from the database.
+    If no quote exists for today, returns the first available quote.
+    """
+    today = date.today()
+    
+    # Query for today's quote
+    daily_quote = db.query(DailyQuote).filter(DailyQuote.date == today).first()
+    
+    if daily_quote:
+        # Return the quote associated with today
+        quote = db.query(Quote).filter(Quote.id == daily_quote.quote_id).first()
+        return {
+            "text": quote.text,
+            "author": quote.author
+        }
+    
+    # If no quote for today, return first quote as fallback
+    quote = db.query(Quote).first()
+    
+    if quote:
+        return {
+            "text": quote.text,
+            "author": quote.author
+        }
+    
+    # If no quotes exist at all, return placeholder
+    return {
+        "text": "The only way to do great work is to love what you do.",
+        "author": "Steve Jobs"
+    }
+
+
 @app.on_event("startup")
 async def startup_event():
     """Initialize database on application startup."""
