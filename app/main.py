@@ -99,12 +99,7 @@ async def home(request: Request, db: Session = Depends(get_db)):
     Homepage endpoint. Renders the Quote of the Day page.
     Gets today's quote from the database and passes it to the template.
     """
-    # TODO: Implement get_daily_quote logic
-    # For now, return a placeholder
-    quote_data = {
-        "text": "The only way to do great work is to love what you do.",
-        "author": "Steve Jobs"
-    }
+    quote_data = get_daily_quote(db)
     
     return templates.TemplateResponse(
         "index.html",
