@@ -116,14 +116,9 @@ async def get_todays_quote_api(db: Session = Depends(get_db)):
     JSON API endpoint to get today's quote.
     Returns quote data as JSON for debugging or API consumption.
     """
-    # TODO: Implement get_daily_quote logic
     today = date.today()
-    
-    quote_data = {
-        "text": "The only way to do great work is to love what you do.",
-        "author": "Steve Jobs",
-        "date": today.isoformat()
-    }
+    quote_data = get_daily_quote(db)
+    quote_data["date"] = today.isoformat()
     
     return JSONResponse(content=quote_data)
 
