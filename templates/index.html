@@ -112,10 +112,10 @@
   </main>
 
   <script>
-    // Quote data (will be replaced by backend values later)
+    // Quote data from backend
     const quoteData = {
-      text: "The only way to do great work is to love what you do.",
-      author: "Steve Jobs"
+      text: "{{ quote.text }}",
+      author: "{{ quote.author }}"
     };
 
     // Get today's date
