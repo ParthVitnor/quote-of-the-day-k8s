@@ -6,7 +6,8 @@ from fastapi import FastAPI, Depends, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from datetime import date
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from app.database import get_db, init_db
 from app.config import settings
