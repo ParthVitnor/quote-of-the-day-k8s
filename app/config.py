@@ -26,6 +26,7 @@ class Settings:
     # Application configuration
     PORT: int = int(os.getenv("PORT", "8000"))
     HOST: str = os.getenv("HOST", "0.0.0.0")
+    TIMEZONE: str = os.getenv("TIMEZONE", "Asia/Kolkata")
     
     # Paths
     BASE_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
