@@ -30,7 +30,9 @@ def get_daily_quote(db: Session) -> dict:
     Get today's quote from the database.
     If no quote exists for today, runs rotation logic to set one.
     """
-    today = date.today()
+    # Get today's date in configured timezone
+    tz = ZoneInfo(settings.TIMEZONE)
+    today = datetime.now(tz).date()
     
     # Query for today's quote
     daily_quote = db.query(DailyQuote).filter(DailyQuote.date == today).first()
@@ -117,7 +119,8 @@ async def get_todays_quote_api(db: Session = Depends(get_db)):
     JSON API endpoint to get today's quote.
     Returns quote data as JSON for debugging or API consumption.
     """
-    today = date.today()
+    tz = ZoneInfo(settings.TIMEZONE)
+    today = datetime.now(tz).date()
     quote_data = get_daily_quote(db)
     quote_data["date"] = today.isoformat()
     
