@@ -5,18 +5,22 @@ Runs daily as a Kubernetes CronJob.
 """
 import os
 import sys
-from datetime import date
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # Add parent directory to path to import app modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database import get_db_context
 from app.models import Quote, DailyQuote
+from app.config import settings
 
 
 def rotate_quote():
     """Select next quote sequentially and set as today's quote."""
-    today = date.today()
+    # Get today's date in configured timezone
+    tz = ZoneInfo(settings.TIMEZONE)
+    today = datetime.now(tz).date()
     
     with get_db_context() as db:
         # Check if today's quote already exists
